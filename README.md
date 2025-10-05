@@ -1,2 +1,9 @@
 # mlzoomcamp_2025
+
 My Notes & Exercises from the ML Zoomcamp 2025 Course
+
+## 📘 View Notebooks on NBViewer
+
+| Notebook | NBViewer Link |
+|-----------|----------------|
+| Fuel Efficiency Analysis | [Open in NBViewer]([https://nbviewer.org/github/username/my-notebooks/blob/main/fuel_efficiency_analysis.ipynb](https://github.com/sojiadeyanju/mlzoomcamp_2025/blob/main/Module%202/module_2_homework.ipynb) |
