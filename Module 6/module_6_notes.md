@@ -73,10 +73,14 @@
 
 ##### Use heatmaps to visualize combinations of these hyperparameters and find the sweet spot for model AUC.
 
-'from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import roc_auc_score
-import seaborn as sns
-import pandas as pd'
+`from sklearn.tree import DecisionTreeClassifier`
+
+`from sklearn.metrics import roc_auc_score`
+
+`import seaborn as sns`
+
+`import pandas as pd`
+
 ---
 ## 🌲 Ensemble Learning & Random Forests
 
@@ -115,7 +119,7 @@ import pandas as pd'
 | subsample       |  Fraction of data used per iteration  |
 | colsample_bytree  |  Fraction of features per tree  |
 | lambda / alpha  |  L2/L1 regularization  |
-
+---
 > 🚧 On Mac, XGBoost may require installing a compatible version of libomp.
 Use conda install -c conda-forge xgboost for smooth setup.
 ---
@@ -136,9 +140,11 @@ Use conda install -c conda-forge xgboost for smooth setup.
 | Decision Tree | Simple if/else rules     | Interpretability | Overfitting     |
 | Random Forest | Ensemble of trees        | Robust, stable   | Slower training |
 | XGBoost       | Sequential boosted trees | Best performance | Complex tuning  |
+---
 
 ## 💬 Explore More
 
 * Try **Extra Trees Classifier** for faster training.
 * Use **feature importance** from trees for interpretability.
 * Apply to regression tasks with DecisionTreeRegressor or RandomForestRegressor.
+
