@@ -1,0 +1,42 @@
+{
+  "best_model": "LinearRegression",
+  "validation": {
+    "MAE": 0.0,
+    "RMSE": 0.0,
+    "R2": 1.0
+  },
+  "cv": {
+    "LinearRegression": {
+      "MAE_mean": -0.0,
+      "MAE_std": 0.0,
+      "RMSE_mean": -0.0,
+      "RMSE_std": 0.0,
+      "R2_mean": 1.0,
+      "R2_std": 0.0
+    },
+    "Ridge": {
+      "MAE_mean": -0.0,
+      "MAE_std": 0.0,
+      "RMSE_mean": -0.0,
+      "RMSE_std": 0.0,
+      "R2_mean": 1.0,
+      "R2_std": 0.0
+    },
+    "RandomForest": {
+      "MAE_mean": -0.0,
+      "MAE_std": 0.0,
+      "RMSE_mean": -0.0,
+      "RMSE_std": 0.0,
+      "R2_mean": 1.0,
+      "R2_std": 0.0
+    },
+    "GradientBoosting": {
+      "MAE_mean": -0.0,
+      "MAE_std": 0.0,
+      "RMSE_mean": -0.0,
+      "RMSE_std": 0.0,
+      "R2_mean": 1.0,
+      "R2_std": 0.0
+    }
+  }
+}
