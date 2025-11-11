@@ -56,26 +56,13 @@ docker images | grep crop-yield-predictor
 
 ## Step 4: Run the Container Locally
 
-### Option A: Run the Container with Pre-trained Model
+### Run the Container with Pre-trained Model
 
 If you have already trained the model locally, copy the `models/` directory into the container:
 
 ```bash
 # Run the container
 docker run -d -p 5000:5000 crop-yield-predictor
-```
-
-### Option B: Train Inside the Container
-
-If you want to train the model inside the container, you can modify the Dockerfile or run a training command:
-
-```bash
-# Run the container and execute the training script
-docker run -v $(pwd)/crop_yield_cleaned.csv:/app/crop_yield_cleaned.csv \
-  -v $(pwd)/models:/app/models \
-  -e DATA_FILE=/app/crop_yield_cleaned.csv \
-  crop-yield-predictor:latest \
-  python train.py
 ```
 
 ## Step 5: Test the API Locally
