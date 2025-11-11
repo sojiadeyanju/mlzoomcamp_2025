@@ -28,11 +28,6 @@ Before deploying, ensure you have the following installed:
 
 Place your cleaned crop yield dataset (`crop_yield_cleaned.csv`) in the project directory or specify its path via environment variables.
 
-```bash
-# Copy the cleaned data to the project directory
-cp /home/ubuntu/crop_yield_cleaned.csv ./crop_yield_cleaned.csv
-```
-
 ## Step 2: Train the Model Locally (Optional)
 
 Before building the Docker image, you can train the model locally to verify everything works:
