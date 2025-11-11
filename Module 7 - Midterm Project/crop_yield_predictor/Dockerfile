@@ -19,8 +19,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY train.py .
 COPY predict.py .
 
+# Copy the pre-trained models
+COPY models/ ./models/
+
 # Create models directory
-RUN mkdir -p models
+# RUN mkdir -p models
 
 # Expose port
 EXPOSE 5000

@@ -15,7 +15,7 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import numpy as np
 
 # Define paths
-DATA_FILE = os.environ.get('DATA_FILE', '/home/ubuntu/crop_yield_cleaned.csv')
+DATA_FILE = os.environ.get('DATA_FILE', 'crop_yield_cleaned.csv')
 MODEL_FILE = os.environ.get('MODEL_FILE', 'models/crop_yield_model.pkl')
 ENCODER_FILE = os.environ.get('ENCODER_FILE', 'models/feature_encoder.pkl')
 METRICS_FILE = os.environ.get('METRICS_FILE', 'models/model_metrics.txt')

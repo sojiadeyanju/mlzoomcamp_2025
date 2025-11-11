@@ -27,6 +27,14 @@ def load_model():
     """Load the trained model and feature encoder from files."""
     global model, feature_columns
     
+    # Check if files exist before trying to load
+    if not os.path.exists(MODEL_FILE):
+        print(f"Error: Model file not found at {MODEL_FILE}", file=sys.stderr)
+        return False
+    if not os.path.exists(ENCODER_FILE):
+        print(f"Error: Encoder file not found at {ENCODER_FILE}", file=sys.stderr)
+        return False
+        
     try:
         print(f"Loading model from {MODEL_FILE}...")
         model = joblib.load(MODEL_FILE)
@@ -37,23 +45,41 @@ def load_model():
         print("Model and encoder loaded successfully.")
         return True
     except Exception as e:
-        print(f"Error loading model: {e}")
+        print(f"Error loading model: {e}", file=sys.stderr)
         return False
 
 @app.before_request
 def before_request():
-    """Ensure model is loaded before processing requests."""
+    """
+    Ensure model is loaded before processing requests.
+    Skip this check for the 'health_check' endpoint.
+    """
+    # Allow the health check to run even if the model is not loaded
+    if request.endpoint == 'health_check':
+        return
+
     if model is None or feature_columns is None:
-        return jsonify({'error': 'Model not loaded'}), 500
+        return jsonify({'error': 'Model not loaded', 'status': 'error'}), 500
 
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint."""
-    return jsonify({
-        'status': 'healthy',
-        'timestamp': datetime.utcnow().isoformat(),
-        'model_loaded': model is not None
-    }), 200
+    model_loaded_status = model is not None and feature_columns is not None
+    
+    if model_loaded_status:
+        return jsonify({
+            'status': 'healthy',
+            'timestamp': datetime.utcnow().isoformat(),
+            'model_loaded': model_loaded_status
+        }), 200
+    else:
+        # Service is "unhealthy" if model isn't loaded
+        return jsonify({
+            'status': 'unhealthy',
+            'error': 'Model or feature encoder not loaded',
+            'timestamp': datetime.utcnow().isoformat(),
+            'model_loaded': model_loaded_status
+        }), 503 # 503 Service Unavailable is appropriate here
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -71,12 +97,6 @@ def predict():
         "Irrigation_Used": true,
         "Weather_Condition": "Cloudy",
         "Days_to_Harvest": 122
-    }
-    
-    Returns:
-    {
-        "predicted_yield": 6.55,
-        "timestamp": "2025-01-01T12:00:00.000000"
     }
     """
     try:
@@ -136,14 +156,6 @@ def batch_predict():
                 "Soil_Type": "Sandy",
                 ...
             },
-            ...
-        ]
-    }
-    
-    Returns:
-    {
-        "predictions": [
-            {"predicted_yield": 6.55, "timestamp": "..."},
             ...
         ]
     }
@@ -212,14 +224,24 @@ def internal_error(error):
     """Handle 500 errors."""
     return jsonify({'error': 'Internal server error'}), 500
 
+# --- Load model on startup ---
+# This code runs when the file is imported by Gunicorn or run directly.
+if not load_model():
+    print("FATAL: Failed to load model on startup. Check 'models' dir.", file=sys.stderr)
+    # The app will continue to run, but /health will report 'model_loaded: false'
+    # and all other endpoints will return 500 (due to @before_request).
+
 if __name__ == '__main__':
-    # Load model on startup
-    if not load_model():
-        print("Failed to load model. Exiting.")
+    # This block only runs when script is executed directly (e.g., python predict.py)
+    
+    # Check if loading failed (for local development)
+    if model is None or feature_columns is None:
+        print("Model was not loaded successfully. Exiting.", file=sys.stderr)
         sys.exit(1)
     
     # Get port from environment or default to 5000
     port = int(os.environ.get('PORT', 5000))
     
-    # Run Flask app
-    app.run(host='0.0.0.0', port=port, debug=False)
+    print(f"--- Running Flask app in DEBUG mode on http://0.0.0.0:{port} ---")
+    # Run Flask app with debug=True for local development
+    app.run(host='0.0.0.0', port=port, debug=True)

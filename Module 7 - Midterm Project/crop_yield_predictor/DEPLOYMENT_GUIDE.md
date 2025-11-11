@@ -53,7 +53,7 @@ Build the Docker image with the following command:
 
 ```bash
 # Build the image
-docker build -t crop-yield-predictor:latest .
+docker build -t crop-yield-predictor .
 
 # Verify the image was created
 docker images | grep crop-yield-predictor
@@ -67,12 +67,7 @@ If you have already trained the model locally, copy the `models/` directory into
 
 ```bash
 # Run the container
-docker run -p 5000:5000 \
-  -v $(pwd)/models:/app/models \
-  -e MODEL_FILE=models/crop_yield_model.pkl \
-  -e ENCODER_FILE=models/feature_encoder.pkl \
-  --name crop-yield-api \
-  crop-yield-predictor:latest
+docker run -d -p 5000:5000 crop-yield-predictor
 ```
 
 ### Option B: Train Inside the Container
