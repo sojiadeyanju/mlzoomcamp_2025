@@ -2,7 +2,6 @@
 
 ## Error Analysis
 
-The error you encountered:
 ```
 Unable to find image '7:latest' locally
 docker: Error response from daemon: pull access denied for 7
